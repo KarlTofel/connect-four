@@ -48,3 +48,86 @@ runTest(correctAnwser2, testingElement2, compareElements(correctAnwser2, testing
 testingElement2 = addPuckToRow(correctAnwser2, 3, 'white', 2, 2);
 // you should not be able to add pucks to a collumn to a row which does not exist (default number of colummns = 7)
 runTest(correctAnwser2, testingElement2, compareElements(correctAnwser2, testingElement2), 'addPuckToRow', 5);
+
+let testArrayOfPucks = [
+    puck(1, 1, 'yellow'),
+    puck(2, 1, 'yellow'),
+    puck(3, 1, 'yellow'),
+    puck(4, 1, 'yellow'),
+]
+let testingElement3 = doesSpotMakeARowOfXPucks(testArrayOfPucks, 1, 1);
+// can it detect if there are 4 pucks to the right of selected spot
+runTest(true, testingElement3, testingElement3, '4 in a row', 1);
+
+testingElement3 = doesSpotMakeARowOfXPucks(testArrayOfPucks, 4, 1);
+// now the same but to the left
+runTest(true, testingElement3, testingElement3, '4 in a row', 2);
+
+testingElement3 = doesSpotMakeARowOfXPucks(testArrayOfPucks, 3, 1);
+// now if the puck is in the middle
+runTest(true, testingElement3, testingElement3, '4 in a row', 3);
+
+testArrayOfPucks = [
+    puck(1, 1, 'yellow'),
+    puck(1, 2, 'yellow'),
+    puck(1, 3, 'yellow'),
+    puck(1, 4, 'yellow'),
+]
+testingElement3 = doesSpotMakeARowOfXPucks(testArrayOfPucks, 1, 1);
+// now if the row is vertical
+runTest(true, testingElement3, testingElement3, '4 in a row', 4);
+
+testArrayOfPucks = [
+    puck(1, 1, 'yellow'),
+    puck(2, 2, 'yellow'),
+    puck(3, 3, 'yellow'),
+    puck(4, 4, 'yellow'),
+]
+// now if the row is left-bottom to right-top
+runTest(true, testingElement3, testingElement3, '4 in a row', 5);
+
+testArrayOfPucks = [
+    puck(1, 4, 'yellow'),
+    puck(2, 3, 'yellow'),
+    puck(3, 2, 'yellow'),
+    puck(4, 1, 'yellow'),
+]
+testingElement3 = doesSpotMakeARowOfXPucks(testArrayOfPucks, 1, 4);
+// now if the row is right-bottom to left-top
+runTest(true, testingElement3, testingElement3, '4 in a row', 6);
+
+testArrayOfPucks = [
+    puck(1, 1, 'yellow'),
+    puck(2, 1, 'yellow'),
+    puck(3, 1, 'yellow'),
+]
+testingElement3 = doesSpotMakeARowOfXPucks(testArrayOfPucks, 1, 1);
+// does it care about the right length
+runTest(false, testingElement3, !testingElement3, '4 in a row', 7);
+
+testArrayOfPucks = [
+    puck(1, 1, 'yellow'),
+    puck(2, 1, 'yellow'),
+    puck(3, 1, 'red'),
+    puck(4, 1, 'yellow'),
+]
+testingElement3 = doesSpotMakeARowOfXPucks(testArrayOfPucks, 1, 1);
+// does it care about appropriate matching colour
+runTest(false, testingElement3, !testingElement3, '4 in a row', 8);
+
+testingElement3 = doesSpotMakeARowOfXPucks(testArrayOfPucks, 1, 1, 2);
+// can I designate a custom length of 2
+runTest(true, testingElement3, testingElement3, '2 in a row', 8);
+
+testArrayOfPucks = [
+    puck(1, 1, 'yellow'),
+    puck(2, 1, 'yellow'),
+    puck(3, 1, 'yellow'),
+    puck(4, 1, 'yellow'),
+    puck(5, 1, 'yellow'),
+    puck(6, 1, 'yellow'),
+    puck(7, 1, 'yellow'),
+]
+testingElement3 = doesSpotMakeARowOfXPucks(testArrayOfPucks, 3, 1, 7);
+// can I designate a custom length of 7
+runTest(true, testingElement3, testingElement3, '7 in a row', 9);

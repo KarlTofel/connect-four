@@ -14,6 +14,7 @@ function addPuckToRow(placedPucks, collumn, puckColour, highestRow = 6, furthest
     return array;
 }
 
+
 function findPuckInCollumnAndRow(placedPucks, collumn, row) {
     return placedPucks.filter(puck => puck.collumn == collumn).find(puck => puck.row == row); // finds the selected puck
 }
@@ -44,5 +45,39 @@ function doesSpotMakeARowOfXPucks(placedPucks, collumn, row, x = 4) {
         const pucksDiagonaly1 = pucksInDirection(placedPucks, collumnRow, 1, 1);// 1, 1 will check in a left-bottom to right-top direction
         const pucksDiagonaly2 = pucksInDirection(placedPucks, collumnRow, -1, 1);// -1, 1 will check in a left-top to right-bottom direction
         return pucksHorizontaly >= x || pucksVerticaly >= x || pucksDiagonaly1 >= x || pucksDiagonaly2 >= x;
+    }
+}
+
+
+const gameState = (players = ['yellow', 'red'], turn = players[0], pucks = new Array, winner = 'none') => {
+    return { players, turn, pucks, winner };
+}
+
+function changeTurn(players, currentPlayer) {
+    let nextIndex = players.indexOf(currentPlayer) + 1;
+    if (nextIndex >= players.length) {
+        return players[0];
+    } else {
+        return players[nextIndex];
+    }
+}
+
+function theWinnerIs(placedPucks, xInARow = 4, checkAllPucks = false) {
+    if (checkAllPucks) { // a bit redundant, but might sometimes it's nice to have the option
+        const winningPuck = placedPucks.find(puck => doesSpotMakeARowOfXPucks(placedPucks, puck.collumn, puck.row, xInARow));
+        if (winningPuck) {
+            // if there is no winner winningPuck will be undefined
+            return winningPuck.colour;
+        } else {
+            return 'none';
+        }
+    } else {
+        const winningPuck = placedPucks.slice(-1)[0]; // this is faster than array[array.length - 1]
+        if (doesSpotMakeARowOfXPucks(placedPucks, winningPuck.collumn, winningPuck.row, xInARow)) {
+            // if there is no winner winningPuck will be undefined
+            return winningPuck.colour;
+        } else {
+            return 'none';
+        }
     }
 }

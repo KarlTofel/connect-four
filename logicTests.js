@@ -131,3 +131,78 @@ testArrayOfPucks = [
 testingElement3 = doesSpotMakeARowOfXPucks(testArrayOfPucks, 3, 1, 7);
 // can I designate a custom length of 7
 runTest(true, testingElement3, testingElement3, '7 in a row', 9);
+
+let correctAnwser4 = {
+    players: [
+        'yellow',
+        'red',
+    ],
+    turn: 'yellow',
+    pucks: [],
+    winner: 'none',
+}
+let testingElement4 = gameState();
+// the above is the starting (and default) setting for a game of connect four
+runTest(correctAnwser4, testingElement4, compareElements(correctAnwser4, testingElement4), 'gameState', 1);
+
+correctAnwser4 = {
+    players: [
+        'yellow',
+        'red',
+        'blue',
+        'green',
+    ],
+    turn: 'green',
+    pucks: [
+        puck(1, 1, 'yellow'),
+    ],
+    winner: 'black',
+}
+testingElement4 = gameState(['yellow', 'red', 'blue', 'green'], 'green', [puck(1, 1, 'yellow')], 'black');
+// quiclky check if it takes custom parimaters
+runTest(correctAnwser4, testingElement4, compareElements(correctAnwser4, testingElement4), 'gameState', 2);
+
+let testPlayersArray = ['yellow', 'red'];
+let correctAnwser5 = 'red';
+let testingElement5 = changeTurn(testPlayersArray, testPlayersArray[0]);
+// will it correctly cycle up from array[0] to array[1]
+runTest(correctAnwser5, testingElement5, correctAnwser5 == testingElement5, 'changeTurn', 1);
+
+correctAnwser5 = 'yellow';
+// will it correctly cycle up from array[1] to array[0]
+testingElement5 = changeTurn(testPlayersArray, testPlayersArray[1]);
+runTest(correctAnwser5, testingElement5, correctAnwser5 == testingElement5, 'changeTurn', 2);
+
+let testingElement6 = theWinnerIs(testArrayOfPucks);
+// just changes the victor value to the colour of the winning player
+runTest('yellow', testingElement6, 'yellow' == testingElement6, 'declareWinner', 1);
+
+testArrayOfPucks = [
+    puck(1, 1, 'yellow'),
+    puck(2, 1, 'yellow'),
+    puck(3, 1, 'yellow'),
+    puck(4, 1, 'Blue'),
+    puck(5, 1, 'yellow'),
+    puck(6, 1, 'yellow'),
+    puck(7, 1, 'yellow'),
+]
+testingElement6 = theWinnerIs(testArrayOfPucks);
+// will it correctly return the winner as 'none'
+runTest('none', testingElement6, 'none' == testingElement6, 'declareWinner', 2);
+
+testingElement6 = theWinnerIs(testArrayOfPucks, 3);
+// will it take the winner of a custom length
+runTest('yellow', testingElement6, 'yellow' == testingElement6, 'declareWinner', 3);
+
+testArrayOfPucks = [
+    puck(1, 1, 'blue'),
+    puck(2, 1, 'blue'),
+    puck(3, 1, 'blue'),
+    puck(4, 1, 'blue'),
+    puck(5, 1, 'yellow'),
+    puck(6, 1, 'yellow'),
+    puck(7, 1, 'yellow'),
+]
+testingElement6 = theWinnerIs(testArrayOfPucks, 4, true);
+// how about if the winning puck is not the last in the array
+runTest('blue', testingElement6, 'blue' == testingElement6, 'declareWinner', 4);

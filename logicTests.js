@@ -13,19 +13,6 @@ function runTest(correctAnwser, testingElement, test, testName, testNumber) {
 }
 
 
-let correctAnwser = {
-    collumn: 1,
-    row: 1,
-    colour: 'white',
-}
-let testingElement = puck(1, 1, 'white');
-runTest(correctAnwser, testingElement, compareElements(correctAnwser, testingElement), 'createPuck', 1);
-
-testingElement = puck(0, 1, 'white');
-// testing if it can detect wrong anwser
-runTest(correctAnwser, testingElement, !compareElements(correctAnwser, testingElement), 'createPuck', 2);
-
-
 let correctAnwser2 = [puck(1, 1, 'white')];
 let testingElement2 = addPuckToRow([], 1, 'white');
 // adding a puck to a collumn should put it to the bottom-most available row (which is by deafault row: 1)
@@ -132,36 +119,6 @@ testingElement3 = doesSpotMakeARowOfXPucks(testArrayOfPucks, 3, 1, 7);
 // can I designate a custom length of 7
 runTest(true, testingElement3, testingElement3, '7 in a row', 9);
 
-let correctAnwser4 = {
-    players: [
-        'yellow',
-        'red',
-    ],
-    turn: 'yellow',
-    pucks: [],
-    winner: 'none',
-}
-let testingElement4 = gameState();
-// the above is the starting (and default) setting for a game of connect four
-runTest(correctAnwser4, testingElement4, compareElements(correctAnwser4, testingElement4), 'gameState', 1);
-
-correctAnwser4 = {
-    players: [
-        'yellow',
-        'red',
-        'blue',
-        'green',
-    ],
-    turn: 'green',
-    pucks: [
-        puck(1, 1, 'yellow'),
-    ],
-    winner: 'black',
-}
-testingElement4 = gameState(['yellow', 'red', 'blue', 'green'], 'green', [puck(1, 1, 'yellow')], 'black');
-// quiclky check if it takes custom parimaters
-runTest(correctAnwser4, testingElement4, compareElements(correctAnwser4, testingElement4), 'gameState', 2);
-
 let testPlayersArray = ['yellow', 'red'];
 let correctAnwser5 = 'red';
 let testingElement5 = changeTurn(testPlayersArray, testPlayersArray[0]);
@@ -206,3 +163,18 @@ testArrayOfPucks = [
 testingElement6 = theWinnerIs(testArrayOfPucks, 4, true);
 // how about if the winning puck is not the last in the array
 runTest('blue', testingElement6, 'blue' == testingElement6, 'declareWinner', 4);
+
+let correctAnwser7 = gameState([puck(4, 1, 'yellow')], ['yellow', 'red'], 'red');
+let testingElement7 = takeTurn(gameState(), 4);
+// will it return an appropriate gameState after taking a turn
+runTest(correctAnwser7, testingElement7, compareElements(correctAnwser7, testingElement7), 'takeTurn', 1);
+
+correctAnwser7 = gameState([puck(4, 1, 'yellow')], ['yellow', 'red'], 'red', 'red');
+testingElement7 = takeTurn(gameState([puck(4, 1, 'yellow')], ['yellow', 'red'], 'red', 'red'), 4);
+// if there is a winner, will it correctly return the unchanged gameState
+runTest(correctAnwser7, testingElement7, compareElements(correctAnwser7, testingElement7), 'takeTurn', 2);
+
+correctAnwser7 = gameState();
+testingElement7 = takeTurn(gameState(), 9);
+// if the puck isn't placed, will it return the unchanged gameState
+runTest(correctAnwser7, testingElement7, compareElements(correctAnwser7, testingElement7), 'takeTurn', 3);

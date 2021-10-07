@@ -49,8 +49,8 @@ function doesSpotMakeARowOfXPucks(placedPucks, collumn, row, x = 4) {
 }
 
 
-const gameState = (players = ['yellow', 'red'], turn = players[0], pucks = new Array, winner = 'none') => {
-    return { players, turn, pucks, winner };
+const gameState = (pucks = new Array, players = ['yellow', 'red'], turn = players[0], winner = 'none', collumns = 7, rows = 6, xInARow = 4) => {
+    return { pucks, players, turn, winner, collumns, rows, xInARow };
 }
 
 function changeTurn(players, currentPlayer) {
@@ -79,5 +79,21 @@ function theWinnerIs(placedPucks, xInARow = 4, checkAllPucks = false) {
         } else {
             return 'none';
         }
+    }
+}
+
+function takeTurn(game, selectedCollumn) {
+    const currentLength = game.pucks.length; // if the puck can't be placed the returned array won't any longer
+    const newPucks = addPuckToRow(game.pucks, selectedCollumn, game.turn, game.collumns, game.rows);
+    if (newPucks.length > currentLength && game.winner == 'none') { // obviously if a winner is already declared no turns can be taken
+        return gameState(
+            newPucks, 
+            game.players,
+            changeTurn(game.players, game.turn),
+            theWinnerIs(newPucks, game.xInARow),
+        );
+    } else {
+        // if a puck was not placed then a turn was not taken
+        return game;
     }
 }

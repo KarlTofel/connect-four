@@ -11,6 +11,9 @@ const game = {
     state: gameState(),
     collumn: 4,
 };
+const gameCanvas = canvas(game.state.collumns, game.state.rows);
+console.log(drawGame(game.state.collumns, game.state.rows, game.state.pucks, game.collumn, game.state.turn));
+drawGameOnCanvas(game.state.collumns, game.state.rows, game.collumn, game.state.turn, game.state.pucks, gameCanvas.ctx, gameCanvas.spotSide);
 
 document.body.addEventListener('keydown', (e) => {
     const code = e.keyCode;
@@ -27,6 +30,7 @@ document.body.addEventListener('keydown', (e) => {
         // R key
         game.state = gameState(); // resets the game
     }
-    const visual = drawGame(game.state.collumns, game.state.rows, game.state.pucks, game.collumn, game.state.turn);
-    console.log(visual);
+    const inText = drawGame(game.state.collumns, game.state.rows, game.state.pucks, game.collumn, game.state.turn);
+    drawGameOnCanvas(game.state.collumns, game.state.rows, game.collumn, game.state.turn, game.state.pucks, gameCanvas.ctx, gameCanvas.spotSide);
+    console.log(inText);
 })

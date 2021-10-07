@@ -84,7 +84,7 @@ function theWinnerIs(placedPucks, xInARow = 4, checkAllPucks = false) {
 
 function takeTurn(game, selectedCollumn) {
     const currentLength = game.pucks.length; // if the puck can't be placed the returned array won't any longer
-    const newPucks = addPuckToRow(game.pucks, selectedCollumn, game.turn, game.collumns, game.rows);
+    const newPucks = addPuckToRow(game.pucks, selectedCollumn, game.turn, game.rows, game.collumns);
     if (newPucks.length > currentLength && game.winner == 'none') { // obviously if a winner is already declared no turns can be taken
         return gameState(
             newPucks, 

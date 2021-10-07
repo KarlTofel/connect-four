@@ -176,3 +176,27 @@ logicCorrectAnwser = gameState();
 logicTestingElement = takeTurn(gameState(), 9);
 // if the puck isn't placed, will it return the unchanged gameState
 runTest(logicCorrectAnwser, logicTestingElement, compareElements(logicCorrectAnwser, logicTestingElement), 'takeTurn', 3);
+
+logicCorrectAnwser = gameState([puck(7, 1, 'yellow')], ['yellow', 'red'], 'red');
+logicTestingElement = takeTurn(gameState(), 7);
+// found bug where it won't drop a puck into last collumn (FIXED)
+runTest(logicCorrectAnwser, logicTestingElement, compareElements(logicCorrectAnwser, logicTestingElement), 'takeTurn', 4);
+
+logicCorrectAnwser = gameState([
+    puck(1, 1, 'yellow'),
+    puck(1, 2, 'yellow'),
+    puck(1, 3, 'yellow'),
+    puck(1, 4, 'yellow'),
+    puck(1, 5, 'yellow'),
+    puck(1, 6, 'yellow'),
+]);
+logicTestingElement = takeTurn(gameState([
+    puck(1, 1, 'yellow'),
+    puck(1, 2, 'yellow'),
+    puck(1, 3, 'yellow'),
+    puck(1, 4, 'yellow'),
+    puck(1, 5, 'yellow'),
+    puck(1, 6, 'yellow'),
+]), 1);
+// also can place puck into nonexistant row (FIXED)
+runTest(logicCorrectAnwser, logicTestingElement, compareElements(logicCorrectAnwser, logicTestingElement), 'takeTurn', 5);
